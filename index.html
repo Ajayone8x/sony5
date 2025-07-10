@@ -1,24 +1,200 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Video Embed</title>
+  <meta charset="UTF-8">
+  <title>indvseng</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    html, body {
       margin: 0;
-      background: black;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
     }
+
     iframe {
-      width: 100vw;
-      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border: none;
+      z-index: 0;
+    }
+
+    /* Overlay Background */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    /* Popup Box */
+    .popup-box {
+      background: #1c1c1c;
+      color: white;
+      padding: 25px 30px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(255, 102, 0, 0.4);
+      animation: slideUp 0.5s ease forwards;
+      max-width: 320px;
+    }
+
+    .popup-box h2 {
+      margin-top: 0;
+      color: #ffa500;
+      font-size: 22px;
+    }
+
+    .popup-box p {
+      font-size: 14px;
+      margin: 10px 0 20px;
+      color: #ddd;
+    }
+
+    .popup-box button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .join-btn {
+      background: #ffa500;
+      color: black;
+    }
+
+    .join-btn:hover {
+      background: #ff8c00;
+    }
+
+    .close-btn {
+      background: #333;
+      color: white;
+    }
+
+    .close-btn:hover {
+      background: #444;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0 }
+      to { opacity: 1 }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 400px) {
+      .popup-box {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- Autoplay Video Iframe (Unmuted) -->
   <iframe 
-    src="https://cricketstan.github.io/Sony-ten-5/" 
-    allow="autoplay; encrypted-media" 
+    src="https://cricketstan.github.io/Sony-Liv/?id=1142&autoplay=1&mute=0" 
+    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
     allowfullscreen>
   </iframe>
+
+  <!-- Telegram Popup Overlay -->
+  <div class="overlay" id="telegramPopup">
+    <div class="popup-box">
+      <h2>Support Us!</h2>
+      <p>Join our Telegram channel <strong>@one8chirag</strong> for instant updates, highlights, and exclusive links.</p>
+      <button class="join-btn" onclick="joinTelegram()">Join Now</button>
+      <button class="close-btn" onclick="closePopup()">Already Joined</button>
+    </div>
+  </div>
+
+  <script>
+    function closePopup() {
+      document.getElementById("telegramPopup").style.display = "none";
+    }
+
+    function joinTelegram() {
+      window.open("https://t.me/+199H69Pqbd82MmM9", "_blank");
+      closePopup();
+    }
+  </script>
+<script>
+  // Disable Right Click and Long Press
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+  document.addEventListener('dragstart', e => e.preventDefault());
+  document.addEventListener('mousedown', e => e.preventDefault());
+  document.addEventListener('touchstart', e => {
+    if (e.touches.length > 1) e.preventDefault();
+  }, { passive: false });
+  document.addEventListener('gesturestart', e => e.preventDefault());
+
+  // Prevent zoom on mobile
+  document.addEventListener('wheel', function(e) {
+    if (e.ctrlKey) e.preventDefault();
+  }, { passive: false });
+
+  // Block common devtools key combinations
+  document.addEventListener('keydown', e => {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+      (e.ctrlKey && e.key.toUpperCase() === 'U')
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  // DevTools detection (basic check)
+  let checkDevTools = () => {
+    let start = performance.now();
+    debugger;
+    let time = performance.now() - start;
+    if (time > 100) {
+      window.location.href = "about:blank"; // redirect or blank out
+    }
+  };
+
+  setInterval(checkDevTools, 1000);
+</script>
+
+<style>
+  /* Block user-select and touch-callout */
+  * {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+    touch-action: manipulation;
+  }
+
+  html, body {
+    -webkit-text-size-adjust: 100%;
+    overflow: hidden;
+  }
+</style>
+
 </body>
 </html>
